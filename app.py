@@ -6,6 +6,7 @@ import cv2
 import io
 import numpy
 from PIL import Image
+# from google.colab import auth
 
 app = Flask(__name__)
 
@@ -13,8 +14,14 @@ app = Flask(__name__)
 def Home():
     return("yes")
 
-@app.route('/API/read', methods=['GET'])
-def read(request):
+# @app.route('/login',methods=['POST'])
+# def login():
+#     auth.authenticate_user()
+    
+
+
+@app.route('/read', methods=['GET'])
+def read():
     # if 'file' not in request.files:
     #     return jsonify({"error": "No file part"})
 
@@ -23,16 +30,17 @@ def read(request):
     # if file.filename == '':
     #     return jsonify({"error": "No selected file"})
 
-    image = cv2.imdecode(np.fromfile('random-words.png', np.uint8), cv2.IMREAD_UNCHANGED)
+    image = cv2.imdecode(np.fromfile('meteranExamplex.jpg', np.uint8), cv2.IMREAD_UNCHANGED)
 
     ready=preprocessing(image)
 
     pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
     text = pytesseract.image_to_string(ready)
-    _, img_encoded = cv2.imencode('.jpg', ready)
-    img_bytes = img_encoded.tobytes()
-    img_io = io.BytesIO(img_bytes)
+
+    # _, img_encoded = cv2.imencode('.jpg', ready)
+    # img_bytes = img_encoded.tobytes()
+    # img_io = io.BytesIO(img_bytes)
 
     return text
 
